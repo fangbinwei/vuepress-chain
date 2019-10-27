@@ -1,0 +1,32 @@
+{
+  "name": "vuepress-chain",
+  "version": "0.0.1",
+  "description": "A chaining API to generate vuepress configurations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "fangbinwei",
+  "license": "ISC",
+  "dependencies": {
+    "javascript-stringify": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.20",
+    "cz-customizable": "^6.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-jest": "^22.21.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "./cz-config.js"
+    }
+  }
+}
