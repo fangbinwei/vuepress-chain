@@ -156,3 +156,66 @@ test('multi-sidebar with group', () => {
     }
   })
 })
+
+test('nav', () => {
+  const config = new Config()
+  config.nav('recently').text('recently').link('/guide/')
+  config.nav('recently2').text('recently2').link('/guide2/')
+  expect(config.toConfig()).toEqual({
+    nav: [
+      {
+      text: 'recently',
+      link: '/guide/'
+      },
+      {
+
+      text: 'recently2',
+      link: '/guide2/'
+      }
+    ]
+  })
+})
+test('nav group', () => {
+  const config = new Config()
+  config.nav('recently').text('recently').link('/guide/')
+  config
+    .nav('frontEnd')
+      .text('frontEnd')
+      .group('group1')
+        .text('groupText1')
+        .item('item1')
+          .text('text1')
+          .link('link1')
+          .end()
+        .end()
+      .group('group2')
+        .text('groupText2')
+        .item('item2')
+          .text('text2')
+          .link('link2')
+  expect(config.toConfig()).toEqual({
+    nav: [
+      {
+        text: 'recently',
+        link: '/guide/'
+      },
+      {
+        text: 'frontEnd',
+        items: [
+          {
+            text: 'groupText1',
+            items: [
+              {text: 'text1', link: 'link1' }
+            ]
+          },
+          {
+            text: 'groupText2',
+            items: [
+              {text: 'text2', link: 'link2' }
+            ]
+          }
+        ]
+      }
+    ]
+  })
+})
