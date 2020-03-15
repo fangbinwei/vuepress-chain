@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-const Config = require('../src/Config.js')
+import Config from '../src/Config'
 test('sidebar array', () => {
   const config = new Config()
   config

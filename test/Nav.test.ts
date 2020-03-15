@@ -1,7 +1,10 @@
 /* eslint-disable prettier/prettier */
-const Nav = require('../src/Nav')
+import Nav from '../src/Nav'
+import Config from '../src/Config'
+
+const config = new Config()
 test('nav without group', () => {
-  const nav = new Nav(null, 'recently')
+  const nav = new Nav(config, 'recently')
   nav.text('recently').link('/guide/')
   expect(nav.toConfig()).toEqual({
     text: 'recently',
@@ -10,7 +13,7 @@ test('nav without group', () => {
 })
 
 test('nav with group', () => {
-  const nav = new Nav(null, 'frontEnd')
+  const nav = new Nav(config, 'frontEnd')
   nav
     .text('frontEnd')
       .group('group1')

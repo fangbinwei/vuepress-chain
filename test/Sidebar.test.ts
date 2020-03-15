@@ -1,6 +1,7 @@
-const Sidebar = require('../src/Sidebar')
+import Sidebar from '../src/Sidebar'
+
 test('sidebar array', () => {
-  const sidebar = new Sidebar(null, undefined)
+  const sidebar = new Sidebar(null as any, undefined)
   sidebar.sub
     .add('/')
     .add('/page-a')
@@ -13,7 +14,7 @@ test('sidebar array', () => {
 })
 
 test('sidebar group', () => {
-  const sidebar = new Sidebar(null, undefined)
+  const sidebar = new Sidebar(null as any, undefined)
   sidebar
     .group('group 1')
     .title('Group 1')

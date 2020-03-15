@@ -1,6 +1,7 @@
-const NavGroup = require('../src/NavGroup')
+import NavGroup from '../src/NavGroup'
+
 test('navGroup', () => {
-  const navGroup = new NavGroup(null, 'group1')
+  const navGroup = new NavGroup(null as any, 'group1')
   navGroup
     .text('framework')
     .item('vue')
