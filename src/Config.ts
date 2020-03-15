@@ -9,8 +9,8 @@ interface ConfigToConfig {
 }
 
 class Config extends ChainedMap<any, void> {
-  sidebars = new ChainedMap<Sidebar, this>(this)
-  navs = new ChainedMap<Nav, this>(this)
+  private sidebars = new ChainedMap<Sidebar, this>(this)
+  private navs = new ChainedMap<Nav, this>(this)
   constructor() {
     super()
   }

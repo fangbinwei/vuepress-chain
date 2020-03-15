@@ -1,24 +1,24 @@
 import Chainable from './Chainable'
-class ChainedSet<T, P> extends Chainable<P> {
-  store = new Set<T>()
-  constructor(parent: P) {
+class ChainedSet<Value, Parent> extends Chainable<Parent> {
+  private store = new Set<Value>()
+  constructor(parent: Parent) {
     super(parent)
   }
-  add(value: T): this {
+  add(value: Value): this {
     this.store.add(value)
     return this
   }
-  delete(value: T): this {
+  delete(value: Value): this {
     this.store.delete(value)
     return this
   }
   get size(): number {
     return this.store.size
   }
-  values(): T[] {
+  values(): Value[] {
     return [...this.store]
   }
-  has(value: T): boolean {
+  has(value: Value): boolean {
     return this.store.has(value)
   }
   clear(): this {

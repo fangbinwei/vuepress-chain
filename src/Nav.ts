@@ -26,7 +26,7 @@ export interface NavToConfig {
 
 class Nav extends ChainedMap<string, Config> {
   name: string
-  navSubGroups = new ChainedMap<NavGroup, this>(this)
+  private navSubGroups = new ChainedMap<NavGroup, this>(this)
   constructor(parent: Config, name: string) {
     super(parent)
     this.name = name

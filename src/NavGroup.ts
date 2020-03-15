@@ -15,7 +15,7 @@ interface NavGroup {
 
 class NavGroup extends ChainedMap<string, Nav> {
   name: string
-  items = new ChainedMap<NavItem, this>(this)
+  private items = new ChainedMap<NavItem, this>(this)
   constructor(parent: Nav, name: string) {
     super(parent)
     this.name = name
