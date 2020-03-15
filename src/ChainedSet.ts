@@ -1,7 +1,7 @@
 import Chainable from './Chainable'
-class ChainedSet<T> extends Chainable {
+class ChainedSet<T, P> extends Chainable<P> {
   store = new Set<T>()
-  constructor(parent: Chainable) {
+  constructor(parent: P) {
     super(parent)
   }
   add(value: T): this {

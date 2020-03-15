@@ -1,21 +1,27 @@
-const ChainedMap = require('./ChainedMap')
-const ChainedSet = require('./ChainedSet')
-const SidebarGroup = require('./SidebarGroup')
+import ChainedMap from './ChainedMap'
+import ChainedSet from './ChainedSet'
+import SidebarGroup, { SidebarGroupToConfig } from './SidebarGroup'
+import Config from './Config'
 
-class Sidebar extends ChainedMap {
-  constructor(parent, link) {
+export type SidebarToConfig =
+  | Array<string | string[]>
+  | Array<SidebarGroupToConfig>
+
+class Sidebar extends ChainedMap<any, Config> {
+  link: string | undefined
+  private sidebarGroups = new ChainedMap<SidebarGroup, this>(this)
+  sub = new ChainedSet<string | string[], this>(this)
+  constructor(parent: Config, link?: string) {
     super(parent)
     this.link = link
-    this.sidebarGroups = new ChainedMap(this)
-    this.sub = new ChainedSet(this)
   }
-  group(name) {
+  group(name: string): SidebarGroup {
     return this.sidebarGroups.getOrCompute(
       name,
       () => new SidebarGroup(this, name)
     )
   }
-  toConfig() {
+  toConfig(): SidebarToConfig {
     const config = this.sub.size
       ? this.sub.values()
       : this.sidebarGroups.values().map(sidebarGroup => sidebarGroup.toConfig())
@@ -23,4 +29,4 @@ class Sidebar extends ChainedMap {
   }
 }
 
-module.exports = Sidebar
+export default Sidebar

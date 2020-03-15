@@ -1,11 +1,9 @@
-type Parent = Chainable | undefined
-
-class Chainable {
-  parent: Chainable
-  constructor(parent: Chainable) {
+class Chainable<P = any> {
+  parent: P
+  constructor(parent: P) {
     this.parent = parent
   }
-  end(): Chainable {
+  end(): P {
     return this.parent
   }
 }

@@ -1,64 +1,64 @@
 import Chainable from './Chainable'
 
-type Entries<T> = {
-  [key: string]: T
+type Entries<Value> = {
+  [key: string]: Value
 }
 
-class ChainedMap<T> extends Chainable {
+class ChainedMap<Value, Parent> extends Chainable<Parent> {
   [key: string]: any
   shorthands: string[] = []
-  private store = new Map<string, T>()
-  constructor(parent: Chainable) {
+  private store = new Map<string | undefined, Value>()
+  constructor(parent: Parent) {
     super(parent)
   }
-  private has(key: string): boolean {
+  has(key: string | undefined): boolean {
     return this.store.has(key)
   }
-  private set(key: string, value: T): this {
+  set(key: string | undefined, value: Value): this {
     this.store.set(key, value)
     return this
   }
-  private get(key: string): T | undefined {
+  get(key: string | undefined): Value | undefined {
     return this.store.get(key)
   }
-  private order(): { entries: Entries<T>; order: string[] } {
+  private order(): { entries: Entries<Value>; order: string[] } {
     const entries = [...this.store].reduce(
       (acc, [key, value]) => {
-        acc[key] = value
+        acc[String(key)] = value
         return acc
       },
-      {} as Entries<T>
+      {} as Entries<Value>
     )
     const order = Object.keys(entries)
     return { entries, order }
   }
-  entries(): Entries<T> | undefined {
+  entries(): Entries<Value> | undefined {
     const { entries, order } = this.order()
     if (order.length) {
       return entries
     }
     return
   }
-  values(): T[] {
+  values(): Value[] {
     const { entries, order } = this.order()
     return order.map(key => entries[key])
   }
 
-  getOrCompute(key: string, fn: () => T): T {
+  getOrCompute(key: string | undefined, fn: () => Value): Value {
     if (!this.has(key)) {
       this.set(key, fn())
     }
-    return this.get(key) as T
+    return this.get(key) as Value
   }
   extend(methods: string[]): this {
     this.shorthands = methods
     methods.forEach(method => {
-      this[method] = (value: T): this => this.set(method, value)
+      this[method] = (value: Value): this => this.set(method, value)
     })
     return this
   }
 
-  clean(obj: Entries<T>): Entries<T> {
+  clean<K extends Record<string, any>>(obj: K): Partial<K> {
     return Object.keys(obj).reduce(
       (acc, key) => {
         const value = obj[key]
@@ -82,7 +82,7 @@ class ChainedMap<T> extends Chainable {
 
         return acc
       },
-      {} as Entries<T>
+      {} as any
     )
   }
 }

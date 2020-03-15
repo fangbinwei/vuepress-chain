@@ -1,42 +1,51 @@
-const ChainedMap = require('./ChainedMap')
-const Sidebar = require('./Sidebar')
-const Nav = require('./Nav')
-const { stringify } = require('javascript-stringify')
+import ChainedMap from './ChainedMap'
+import Sidebar, { SidebarToConfig } from './Sidebar'
+import Nav, { NavToConfig } from './Nav'
+import { stringify } from 'javascript-stringify'
 
-class Config extends ChainedMap {
+interface ConfigToConfig {
+  nav?: NavToConfig[]
+  sidebar?: SidebarToConfig | Record<string, SidebarToConfig>
+}
+
+class Config extends ChainedMap<any, void> {
+  sidebars = new ChainedMap<Sidebar, this>(this)
+  navs = new ChainedMap<Nav, this>(this)
   constructor() {
     super()
-    this.sidebars = new ChainedMap(this)
-    this.navs = new ChainedMap(this)
   }
-  sidebar(link) {
+  sidebar(link?: string): Sidebar {
     return this.sidebars.getOrCompute(link, () => new Sidebar(this, link))
   }
-  nav(name) {
+  nav(name: string): Nav {
     return this.navs.getOrCompute(name, () => new Nav(this, name))
   }
-  toConfig() {
+  toConfig(): ConfigToConfig {
     const sidebars = this.sidebars.entries() || {}
     const sidebarDefault = this.sidebars.get(undefined)
     const sidebarsConfig = sidebarDefault
       ? sidebarDefault.toConfig()
-      : Object.keys(sidebars).reduce((acc, key) => {
-          acc[key] = sidebars[key].toConfig()
-          return acc
-        }, {})
+      : Object.keys(sidebars).reduce(
+          (acc, key) => {
+            acc[key] = sidebars[key].toConfig()
+            return acc
+          },
+          {} as Record<string, SidebarToConfig>
+        )
     const navsConfig = this.navs.values().map(nav => nav.toConfig())
 
-    const config = this.clean(
-      Object.assign(this.entries() || {}, {
+    const config = this.clean({
+      ...(this.entries() || {}),
+      ...{
         sidebar: sidebarsConfig,
         nav: navsConfig
-      })
-    )
+      }
+    })
     return config
   }
-  toString() {
+  toString(): string | undefined {
     return stringify(this.toConfig(), null, ' ')
   }
 }
 
-module.exports = Config
+export default Config
