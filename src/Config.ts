@@ -48,4 +48,4 @@ class Config extends ChainedMap<any, void> {
   }
 }
 
-export default Config
+export = Config

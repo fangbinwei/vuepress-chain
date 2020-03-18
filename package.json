@@ -4,14 +4,17 @@
   "description": "A chaining API to generate vuepress configurations.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "jest"
   },
   "author": "fangbinwei",
   "license": "ISC",
   "files": [
     "index.js",
-    "src"
+    "src",
+    "dist"
   ],
+  "types": "./dist/Config.d.ts",
   "dependencies": {
     "javascript-stringify": "^2.0.0"
   },

@@ -1,1 +1,1 @@
-module.exports = require('./src/Config.js')
+module.exports = require('./dist/Config.js')
